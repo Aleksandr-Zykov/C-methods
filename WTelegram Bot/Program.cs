@@ -13,6 +13,8 @@ class Program
 {
     static async Task Main(string[] args)
     {
+        WTelegramBot reader = new WTelegramBot();
+
         //Example usage with reading posts and dowloading images
         WTelegramBot.TelegramReadChannelRequest request = new WTelegramBot.TelegramReadChannelRequest()
         {
@@ -23,7 +25,7 @@ class Program
             ChannelUsername = "https://t.me/uniannet",
             NumberOfPosts = 2
         };
-        var result = await WTelegramBot.ReadRecentPosts(request);
+        var result = await reader.ReadRecentPosts(request);
         int imageIndex = 0;
         foreach (var item in result)
         {
@@ -43,7 +45,7 @@ class Program
 
 public class WTelegramBot
 { 
-    public static async Task<List<TelegramPost>> ReadRecentPosts(TelegramReadChannelRequest request)
+    public async Task<List<TelegramPost>> ReadRecentPosts(TelegramReadChannelRequest request)
     {
         // Configure WTelegram client
         string Config(string what)
@@ -99,7 +101,7 @@ public class WTelegramBot
         return posts;
     }
 
-    private static string NormalizeChannelUsername(string username)
+    private string NormalizeChannelUsername(string username)
     {
         // Remove protocols and leading/trailing spaces
         username = username.Trim().Replace("https://", "").Replace("http://", "");
